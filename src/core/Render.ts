@@ -16,7 +16,7 @@ export default class Render {
     const canvas = Canvas.create(id);
     switch(mode) {
       case RenderMode.Once:
-        this.draw(canvas, objects, false);
+        this.draw(canvas, objects);
         break;
       case RenderMode.EachFrame:
         this.drawableEachFrame.push({ canvas, objects });
@@ -25,10 +25,10 @@ export default class Render {
   }
 
   public drawEachFrame() {
-    this.drawableEachFrame.forEach(drawable => this.draw(drawable.canvas, drawable.objects, true));
+    this.drawableEachFrame.forEach(drawable => this.draw(drawable.canvas, drawable.objects));
   }
 
-  private draw(canvas: Canvas, objects: EntityBase[], drawScheduled: boolean): void {
+  private draw(canvas: Canvas, objects: EntityBase[]): void {
     canvas.clear();
     objects.forEach(object => {
       Promise.all(object.assets

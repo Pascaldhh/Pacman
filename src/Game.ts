@@ -15,7 +15,7 @@ export default class Game extends GameBase {
   }
 
   start(): void {
-    this.pacman = new Pacman(50, 50, 50, 50);
+    this.pacman = new Pacman(50, 50, 28, 28);
     this.ghosts = [new Ghost(), new Ghost(), new Ghost(), new Ghost()];
     this.map = new Map();
   }
@@ -24,7 +24,7 @@ export default class Game extends GameBase {
   draw(): void {}
 
   registerRenders(): void {
-    this.render.create("map", RenderMode.Once, []);
+    this.render.create("map", RenderMode.Once, [this.map]);
     this.render.create("moveable", RenderMode.EachFrame, [this.pacman]);
   }
 
