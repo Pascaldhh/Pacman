@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently --kill-others \"swc src -d out -w --strip-leading-paths\" \"npx tailwindcss -i ./public/style.css -o ./out/style.css --watch\"",
+    "dev": "concurrently --kill-others \"swc src -d ./public/assets/js/ -w --strip-leading-paths\" \"npx tailwindcss -i ./public/style.css -o ./public/assets/css/tailwind.css --watch\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

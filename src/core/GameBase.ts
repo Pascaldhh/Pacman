@@ -1,4 +1,5 @@
 import Render from "./Render.js";
+import { Time } from "./Time.js";
 
 export default abstract class GameBase {
   protected render: Render;
@@ -20,6 +21,9 @@ export default abstract class GameBase {
   }
     
   private loop(): void {
+    Time.deltaTime = (performance.now()/ 1000) - Time.prevDeltaTime;
+    Time.prevDeltaTime = performance.now()/ 1000;
+
     this.update();
     this.draw();
     this.render.drawEachFrame();

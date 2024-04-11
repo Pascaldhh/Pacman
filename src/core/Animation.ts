@@ -1,6 +1,7 @@
+import { Time } from "./Time.js";
 import { SpriteFrame } from "./types/SpriteFrame.js";
 
-type AnimationProps = {key: string, frames: SpriteFrame[]};
+type AnimationProps = {key: string, speed: number, frames: SpriteFrame[]};
 
 export default class Animation {
   private currentFrame: number;
@@ -9,15 +10,17 @@ export default class Animation {
   private active?: AnimationProps;
   private entityFrame: SpriteFrame;
 
+  private timeSinceLastUpdate = 0;
+
   constructor(activeFrame: SpriteFrame) {
     this.currentFrame = 0;
     this.animations = [];
     this.entityFrame = activeFrame;
   }
 
-  public create(name: string, animations: SpriteFrame[]): void {
+  public create(name: string, speed: number, animations: SpriteFrame[]): void {
     if(this.animations.some(e => e.key === name)) throw new Error("Duplicated animation");
-    this.animations.push({key: name, frames: animations});
+    this.animations.push({key: name, speed: speed, frames: animations});
   }
 
   public set(name: string): void {
@@ -26,14 +29,19 @@ export default class Animation {
 
   public use(): void {
     if(!this.active) return;
-  
-    if(this.currentFrame >= this.active.frames.length) this.currentFrame = 0;
+    
+    this.timeSinceLastUpdate += Time.deltaTime;
 
-    const frame = this.active.frames[this.currentFrame];
-    this.entityFrame.sx = frame.sx;
-    this.entityFrame.sy = frame.sy;
-    this.entityFrame.sWidth = frame.sWidth;
-    this.entityFrame.sHeight = frame.sHeight;
-    this.currentFrame++;
+    if(this.timeSinceLastUpdate >= this.active.speed / 1000) {
+      const frame = this.active.frames[this.currentFrame];
+      this.entityFrame.sx = frame.sx;
+      this.entityFrame.sy = frame.sy;
+      this.entityFrame.sWidth = frame.sWidth;
+      this.entityFrame.sHeight = frame.sHeight;
+      
+      this.currentFrame = (this.currentFrame + 1) % this.active.frames.length;
+      this.timeSinceLastUpdate = 0;
+    }
+
   }
 }

@@ -3,6 +3,7 @@ import { RenderMode } from "./core/Render.js";
 import Ghost from "./entities/Ghost.js";
 import Map from "./Map.js";
 import Pacman from "./entities/Pacman.js";
+import { Time } from "./core/Time.js";
 
 export default class Game extends GameBase {
   private pacman: Pacman;
