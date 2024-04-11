@@ -2,15 +2,18 @@ import Rectangle from "../core/Rectangle.js";
 import { EntityBase } from "../core/types/Entity.js";
 
 export default class Pacman extends Rectangle implements EntityBase {
-  assets: HTMLImageElement[];
+  public assets: HTMLImageElement[];
   private image: HTMLImageElement;
-  private imageReady: boolean;
 
-  constructor() {
+  constructor(x: number, y: number, w: number, h: number) {
     super();
+    this.x = x;
+    this.y = y;
+    this.width = w;
+    this.height = h;
+
     this.image = new Image();
     this.image.src = "./assets/images/pacman-sprites.png";
-    
     this.assets = [this.image];
   }
 
@@ -19,7 +22,7 @@ export default class Pacman extends Rectangle implements EntityBase {
   }
 
   draw(ctx: CanvasRenderingContext2D): void {
-    ctx.fillStyle = "red";
-    ctx.drawImage(this.image, 50, 50, 150, 150);
+    ctx.imageSmoothingEnabled = false;
+    ctx.drawImage(this.image, 0, 0, 25, 25, this.x, this.y, this.width, this.height);
   }
 }

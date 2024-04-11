@@ -22,6 +22,18 @@ export class Canvas {
     const size = Canvas.getSize();
     this.instance.width = size.width;
     this.instance.height = size.height;
+
+    if (window.devicePixelRatio > 1) {
+      const canvasWidth = size.width;
+      const canvasHeight = size.height;
+  
+      this.instance.width = canvasWidth * window.devicePixelRatio;
+      this.instance.height = canvasHeight * window.devicePixelRatio;
+      this.instance.style.width = canvasWidth + "px";
+      this.instance.style.height = canvasHeight + "px";
+  
+      this.ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    }
   }
 
   public static wrapperId = "canvas-wrapper";
