@@ -19,11 +19,10 @@ export default class Game extends GameBase {
     this.map = new Map();
   }
 
-  update(): void {
-    
-  }
+  update(): void {}
+  draw(): void {}
 
-  draw(): void {
+  registerRenders(): void {
     this.render.create("map", RenderMode.Once, []);
     this.render.create("moveable", RenderMode.EachFrame, [this.pacman]);
   }

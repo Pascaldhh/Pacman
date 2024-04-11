@@ -1,5 +1,5 @@
 import { Canvas } from "./Canvas.js";
-import { DrawableEntity } from "./types/Entity.js";
+import EntityBase from "./EntityBase.js";
 
 export const RenderMode = {
   Once: 0,
@@ -7,16 +7,12 @@ export const RenderMode = {
 } as const;
 type Mode = (typeof RenderMode)[keyof typeof RenderMode];
 
-type RenderCombo = { canvas: Canvas, objects: DrawableEntity[] };
+type RenderCombo = { canvas: Canvas, objects: EntityBase[] };
 
 export default class Render {
   public drawableEachFrame: RenderCombo[] = [];
 
-  constructor() {
-    requestAnimationFrame(this.drawEachFrame.bind(this));
-  }
-
-  public create(id: string, mode: Mode, objects: DrawableEntity[]): void {
+  public create(id: string, mode: Mode, objects: EntityBase[]): void {
     const canvas = Canvas.create(id);
     switch(mode) {
       case RenderMode.Once:
@@ -30,10 +26,9 @@ export default class Render {
 
   public drawEachFrame() {
     this.drawableEachFrame.forEach(drawable => this.draw(drawable.canvas, drawable.objects, true));
-    requestAnimationFrame(this.drawEachFrame.bind(this));
   }
 
-  private draw(canvas: Canvas, objects: DrawableEntity[], drawScheduled: boolean): void {
+  private draw(canvas: Canvas, objects: EntityBase[], drawScheduled: boolean): void {
     canvas.clear();
     objects.forEach(object => {
       Promise.all(object.assets

@@ -14,11 +14,18 @@ export default abstract class GameBase {
   protected startup(): void {
     this.events();
     this.start();
-    this.draw();
+    this.registerRenders();
 
-    setInterval(this.update.bind(this), 1000/this.fps);
+    requestAnimationFrame(this.loop.bind(this));
   }
     
+  private loop(): void {
+    this.update();
+    this.draw();
+    this.render.drawEachFrame();
+    requestAnimationFrame(this.loop.bind(this));
+  }
+
   /**
    * Runs only one time
    */  
@@ -31,10 +38,15 @@ export default abstract class GameBase {
   abstract update(): void;
 
   /**
-   * Runs only one time
-   * Register all canvases
-   */  
+   * Runs every frame
+   */
   abstract draw(): void;
+
+  /**
+   * Runs only one time
+   * Useable to register all canvases
+   */  
+  abstract registerRenders(): void;
 
   /**
    * Contains all global eventlisteners

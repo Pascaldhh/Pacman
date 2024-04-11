@@ -1,7 +1,6 @@
-import Rectangle from "../core/Rectangle.js";
-import { EntityBase } from "../core/types/Entity.js";
+import EntityBase from "../core/EntityBase.js";
 
-export default class Ghost extends Rectangle implements EntityBase {
+export default class Ghost extends EntityBase {
   logic(): void {
     throw new Error("Method not implemented.");
   }
